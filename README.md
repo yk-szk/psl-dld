@@ -18,7 +18,7 @@ print(partial_loss(y_true, y_pred))
 ```
 
 ```output
-tf.Tensor([[0.6183691 0.6183691 0.618369  1.6171571 0.7050352]], shape=(1, 5), dtype=float32)
+tf.Tensor([[0.30918455 0.30918455 0.3091845  0.80857855 0.3525176 ]], shape=(1, 5), dtype=float32)
 ```
 
 Above is an example with three classes.

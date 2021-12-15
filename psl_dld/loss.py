@@ -2,7 +2,7 @@ from tensorflow.keras import backend as K
 
 
 class PartialCrossEntropyloss:
-    def __init__(self, num_classes, alpha=1.0, reduce='mean'):
+    def __init__(self, num_classes, alpha=0.5, reduce='mean'):
         self.num_classes = num_classes
         self.alpha = alpha
         self.reduce = reduce
@@ -17,8 +17,8 @@ class PartialCrossEntropyloss:
                                  y_true.dtype)  # offset unannotated pixels
         a = K.sparse_categorical_crossentropy(y_true, y_pred, from_logits=True)
         u = K.sparse_categorical_crossentropy(y_true, y_pred, from_logits=True)
+        loss = (1-self.alpha) * mask * a + inv_mask * self.alpha / u
         if self.reduce == 'mean':
-            return K.sum(mask * a) / K.sum(mask) + K.sum(
-                inv_mask * self.alpha / u) / K.sum(inv_mask)
+            return K.mean(loss)
         else:
-            return mask * a + inv_mask * self.alpha / u
+            return loss
